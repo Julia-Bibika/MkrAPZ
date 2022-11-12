@@ -22,7 +22,7 @@ namespace mkr
             IDamage human = new Character("Human", 300);
             human.TakeDamage(5);
             Buff human1 = new Buff(human);
-            human1 = new WaterBuff(human, 3, true);
+            human1 = new WaterBuff(human, 3, true,100);
 
         }
     }
@@ -92,12 +92,14 @@ namespace mkr
     }
     class WaterBuff : Buff
     {
+        protected int Time;
         protected bool Effect;
         protected double DamageCoeffitient;
-        public WaterBuff(IDamage Damage, int DefencePercet,bool effect) : base(Damage)
+        public WaterBuff(IDamage Damage, int DefencePercet,bool effect,int Time) : base(Damage)
         {
             this.DamageCoeffitient = 1 - DefencePercet / 100.0;
             this.Effect = effect;
+            this.Time = Time;
         }
 
         public override void TakeDamage(int Damage)
@@ -109,16 +111,30 @@ namespace mkr
             base.TakeDamage(Damage);
             this.Effect = false;
             Console.WriteLine("Ви відмінили ефект захисту");
+        }
+        public void TimeBuff(int Time,int Damage)
+        {
+            while(Time > 0)
+            {
+                Time--;
+            }
+            if(Time == 0)
+            {
+                Console.WriteLine("Час дії ефекту закінчився");
+                CancelEffect(Damage);
+            }
         }
     }
     class FireBuff : Buff
     {
+        protected int Time;
         protected bool Effect;
         protected double DamageCoeffitient;
-        public FireBuff(IDamage Damage, int DefencePercet, bool effect) : base(Damage)
+        public FireBuff(IDamage Damage, int DefencePercet, bool effect, int Time) : base(Damage)
         {
             this.DamageCoeffitient = 1 - DefencePercet / 100.0;
             this.Effect = effect;
+            this.Time = Time;
         }
 
         public override void TakeDamage(int Damage)
@@ -130,6 +146,18 @@ namespace mkr
             base.TakeDamage(Damage);
             this.Effect = false;
             Console.WriteLine("Ви відмінили ефект захисту");
+        }
+        public void TimeBuff(int Time, int Damage)
+        {
+            while (Time > 0)
+            {
+                Time--;
+            }
+            if (Time == 0)
+            {
+                Console.WriteLine("Час дії ефекту закінчився");
+                CancelEffect(Damage);
+            }
         }
     }
 }
