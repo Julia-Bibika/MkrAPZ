@@ -19,6 +19,11 @@ namespace mkr
         static void Main(string[] args)
         {
             // Для цієї задачі доцільно використати структурний шаблон - декоратор 
+            IDamage human = new Character("Human", 300);
+            human.TakeDamage(5);
+            Buff human1 = new Buff(human);
+            human1 = new WaterBuff(human, 3, true);
+
         }
     }
 
@@ -31,13 +36,12 @@ namespace mkr
     class Character : IDamage
     {
         protected int HealthPoints;
-        protected int AttackDamage;
         protected string Name;
-        public Character(string Name, int HealthPoints, int AttackDamage)
+        public Character(string Name, int HealthPoints)
         {
             this.Name = Name;
             this.HealthPoints = HealthPoints;
-            this.AttackDamage = AttackDamage;
+
         }
 
         public void TakeDamage(int Damage)
@@ -100,8 +104,9 @@ namespace mkr
         {
             base.TakeDamage((int)Math.Floor(Damage * this.DamageCoeffitient));
         }
-        public void CancelEffect()
+        public void CancelEffect(int Damage)
         {
+            base.TakeDamage(Damage);
             this.Effect = false;
             Console.WriteLine("Ви відмінили ефект захисту");
         }
@@ -120,8 +125,9 @@ namespace mkr
         {
             base.TakeDamage((int)Math.Floor(Damage * this.DamageCoeffitient));
         }
-        public void CancelEffect()
+        public void CancelEffect(int Damage)
         {
+            base.TakeDamage(Damage);
             this.Effect = false;
             Console.WriteLine("Ви відмінили ефект захисту");
         }
